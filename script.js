@@ -30,9 +30,13 @@ searchField.onkeyup = e=>{
       .then(result=>{
         searchResults.push(...result)
         suggestions.innerHTML=""
+        const docFragment = new DocumentFragment()
         for (const repo of searchResults) {
-          suggestions.innerHTML+=`<li>${repo.name}</li>`
+          const listItem = document.createElement("li")
+          listItem.textContent = repo.name
+          docFragment.appendChild(listItem)
         }
+        suggestions.appendChild(docFragment)
       })
       .catch(err=>{
         document.write(err)
@@ -52,12 +56,14 @@ searchField.onkeydown = ()=>{
 suggestions.onclick = e=>{
   const idx = Array.from(suggestions.children).indexOf(e.target)
   const info = searchResults[idx]
-  console.log(info)
   const domElement = document.createElement("div")
-  domElement.innerHTML=`<h2>${info.name}</h2>
+  domElement.innerHTML=`<h2></h2>
 <button type="button" title="remove repo from list"></button>
-<p>Owner: ${info.owner}</p>
-<p>Stars: ${info.stars}</p>`
+<p></p>
+<p></p>`
+  domElement.children[0].textContent = info.name
+  domElement.children[2].textContent = `Owner: ${info.owner}`
+  domElement.children[3].textContent = `Stars: ${info.stars}`
   repoList.appendChild(domElement)
   suggestions.innerHTML=""
   searchField.value=""
