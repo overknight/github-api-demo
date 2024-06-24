@@ -13,6 +13,9 @@ searchField.onkeyup = e=>{
     suggestions.innerHTML = ""
     return
   }
+  if (!searchField.value.trim()) {
+    return
+  }
   inputTimeout = setTimeout(()=>{
     if (lastRequest != searchField.value) {
       lastRequest = searchField.value
